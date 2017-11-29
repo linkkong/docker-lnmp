@@ -1,0 +1,44 @@
+version: '2'
+services:
+  nginx:
+    depends_on:
+      - php
+    image: nginx:latest
+    expose:
+     - 80
+     - 443
+    ports:
+      - "800:80"
+    volumes:
+     - /home/docker/www:/usr/share/nginx/html
+     - /home/docker/nginx/conf.d:/etc/nginx/conf.d
+  php:
+    depends_on:
+      - mysql
+      - redis
+    image: php:7.1.0-fpm  # see below
+    expose:
+      - 9000
+    volumes:
+      - /home/docker/www/:/var/www/html/
+      - /home/docker/php:/usr/local/etc/php
+#      - /home/docker/php/php-fpm.conf:/usr/local/etc/php-fpm.conf
+  mysql:
+    image: mariadb
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+        - /home/docker/mysql/data:/var/lib/mysql
+        - /home/docker/mysql/config:/etc/mysql/conf.d
+    expose:
+      - 3306
+    ports:
+      - "3308:3306"
+
+  redis:
+    image: redis:latest
+    expose:
+      - 6379
+    ports:
+      - "6389:6379"
+
