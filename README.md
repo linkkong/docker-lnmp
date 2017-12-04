@@ -9,7 +9,7 @@
 注：安装php mongodb模块
 - 1. docker ps -a 查看php容器的id
 - 2. docker exec -it 容器id bash   进入 命令行
-- 3. 执行apt-update && apt install libssh-dev  安装必要的命令
+- 3. 执行apt-update && apt install libssh-dev  安装必要的包
 - 4. 进入/usr/local/bin, 执行pecl install mongodb && docker-php-ext-enable mongodb
 
 #docker_php官方文档 https://hub.docker.com/_/php/
