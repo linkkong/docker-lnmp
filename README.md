@@ -13,4 +13,7 @@
 - 4. 进入/usr/local/bin, 执行pecl install mongodb && docker-php-ext-enable mongodb
 - 5. pecl install redis-3.1.0 && docker-php-ext-enable redis
 
+#安装mysql扩展
+- 1. docker-php-ext-install pdo_mysql
+- 2. 重启容器
 #docker_php官方文档 https://hub.docker.com/_/php/
