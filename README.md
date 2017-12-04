@@ -15,5 +15,5 @@
 
 #安装mysql扩展
 - 1. docker-php-ext-install pdo_mysql
-- 2. 重启容器
+
 #docker_php官方文档 https://hub.docker.com/_/php/
