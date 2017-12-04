@@ -2,13 +2,15 @@ version: '2'
 services:
   nginx:
     depends_on:
-      - php
+     - php
     image: nginx:latest
     expose:
      - 80
      - 443
     ports:
-      - "800:80"
+     - "800:80"
+    links:
+     - php:php
     volumes:
      - /home/docker/www:/usr/share/nginx/html
      - /home/docker/nginx/conf.d:/etc/nginx/conf.d
@@ -19,9 +21,11 @@ services:
     image: php:7.1.0-fpm  # see below
     expose:
       - 9000
+    ports:
+      - "9001:9000"
     volumes:
       - /home/docker/www/:/var/www/html/
-      - /home/docker/php:/usr/local/etc/php
+#      - /home/docker/php:/usr/local/etc/
 #      - /home/docker/php/php-fpm.conf:/usr/local/etc/php-fpm.conf
   mysql:
     image: mariadb
