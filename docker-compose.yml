@@ -27,6 +27,17 @@ services:
       - /home/docker/www/:/var/www/html/
 #      - /home/docker/php:/usr/local/etc/
 #      - /home/docker/php/php-fpm.conf:/usr/local/etc/php-fpm.conf
+    links:
+      - mysql:mysql
+      - redis:redis
+      - mongo:mongo
+#    commands:
+
+    environment:
+      MYSQL_HOST: mysql:3306
+      REDIS_HOST: redis:6379
+      MONGO_HOST: mongo:27017
+
   mysql:
     image: mariadb
     environment:
@@ -45,4 +56,9 @@ services:
       - 6379
     ports:
       - "6389:6379"
+
+  mongo:
+    image: mongo
+    expose:
+      - 27017
 
