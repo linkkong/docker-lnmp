@@ -8,25 +8,26 @@ services:
      - 80
      - 443
     ports:
-     - "800:80"
+     - "80:80"
     links:
      - php:php
     volumes:
-     - /home/docker/www:/usr/share/nginx/html
-     - /home/docker/nginx/conf.d:/etc/nginx/conf.d
+     - /home/mxc/lnmp/www:/usr/share/nginx/html
+     - /home/mxc/lnmp/nginx/conf.d:/etc/nginx/conf.d
   php:
+    build: ./php
     depends_on:
       - mysql
       - redis
-    image: php:7.1.0-fpm  # see below
+#    image: php:7.1.0-fpm  # see below
     expose:
       - 9000
     ports:
       - "9001:9000"
     volumes:
-      - /home/docker/www/:/var/www/html/
-#      - /home/docker/php:/usr/local/etc/
-#      - /home/docker/php/php-fpm.conf:/usr/local/etc/php-fpm.conf
+      - /home/mxc/lnmp/www/:/var/www/html/
+#      - /home/mxc/lnmp/php:/usr/local/etc/
+#      - /home/mxc/lnmp/php/php-fpm.conf:/usr/local/etc/php-fpm.conf
     links:
       - mysql:mysql
       - redis:redis
@@ -43,22 +44,24 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: root
     volumes:
-        - /home/docker/mysql/data:/var/lib/mysql
-        - /home/docker/mysql/config:/etc/mysql/conf.d
+        - /home/mxc/lnmp/mysql/data:/var/lib/mysql
+        - /home/mxc/lnmp/mysql/config:/etc/mysql/conf.d
     expose:
       - 3306
     ports:
-      - "3308:3306"
+      - "3306:3306"
 
   redis:
     image: redis:latest
     expose:
       - 6379
     ports:
-      - "6389:6379"
+      - "6379:6379"
 
   mongo:
     image: mongo
     expose:
       - 27017
+    ports:
+      - "27017:27017"
 
