@@ -32,6 +32,7 @@ services:
       - mysql:mysql
       - redis:redis
       - mongo:mongo
+      - rabbitmq:rabbitmq
 #    commands:
 
     environment:
@@ -65,3 +66,14 @@ services:
     ports:
       - "27017:27017"
 
+  rabbitmq:
+    image: rabbitmq:3.7.2-management
+    expose:
+      - 5672
+      - 15672
+    ports:
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+#     RABBITMQ_DEFAULT_VHOST: /
