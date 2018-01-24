@@ -17,7 +17,7 @@
 - 1. docker-php-ext-install pdo_mysql
 
 #查看rabbitmq队列
-- ```localhost:http://localhost:15672```
+- ```http://localhost:15672```
 - 账号密码默认guest,guest
 
 #docker_php官方文档 https://hub.docker.com/_/php/
