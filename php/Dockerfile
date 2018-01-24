@@ -28,7 +28,7 @@ RUN set -xe \
     && docker-php-ext-configure gd \
         --with-freetype-dir=/usr/include/ \
         --with-jpeg-dir=/usr/include/ \
-    && docker-php-ext-install gd \
+    && docker-php-ext-install gd bcmath\
     && pecl install mongodb && docker-php-ext-enable mongodb \
     && wget https://getcomposer.org/composer.phar \
     && mv composer.phar /usr/local/bin/composer \
