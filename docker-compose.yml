@@ -26,7 +26,7 @@ services:
       - "9001:9000"
     volumes:
       - /home/mxc/lnmp/www/:/var/www/html/
-#      - /home/mxc/lnmp/php:/usr/local/etc/
+      - /home/mxc/lnmp/php/etc/:/usr/local/etc/
 #      - /home/mxc/lnmp/php/php-fpm.conf:/usr/local/etc/php-fpm.conf
     links:
       - mysql:mysql
