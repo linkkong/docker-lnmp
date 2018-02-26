@@ -22,7 +22,7 @@ RUN set -xe \
     && echo "安装 php 以及编译构建组件所需包" \
     && DEBIAN_FRONTEND=noninteractive \
     && apt-get update \
-    && apt-get install wget vim -y ${runtimeDeps} ${buildDeps} --no-install-recommends \
+    && apt-get install wget vim cron -y ${runtimeDeps} ${buildDeps} --no-install-recommends \
     && echo "编译安装 php 组件" \
     && docker-php-ext-install iconv mcrypt mysqli pdo pdo_mysql zip \
     && docker-php-ext-configure gd \
@@ -42,4 +42,8 @@ RUN echo "export PATH=$PATH:~/.composer/vendor/bin" >> ~/.bashrc \
         -o APT::AutoRemove::SuggestsImportant=false \
         $buildDeps \
     && rm -rf /var/cache/apt/* \
-    && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/* \
+    && touch /entrypoint.sh
+ADD entrypoint.sh /entrypoint.sh
+RUN chmod 777 /entrypoint.sh
+CMD ["sh","-c","/entrypoint.sh"]
