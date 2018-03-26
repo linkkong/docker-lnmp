@@ -11,6 +11,7 @@ services:
      - "80:80"
     links:
      - php:php
+     - php7.2:php7.2
     volumes:
      - /home/mxc/lnmp/www:/usr/share/nginx/html
      - /home/mxc/lnmp/nginx/conf.d:/etc/nginx/conf.d
@@ -39,7 +40,28 @@ services:
       MYSQL_HOST: mysql:3306
       REDIS_HOST: redis:6379
       MONGO_HOST: mongo:27017
-
+    php7.2:
+    build: ./php/php7.2
+    depends_on:
+      - mysql
+      - redis
+      - rabbitmq
+#    image: php:7.1.0-fpm  # see below
+    expose:
+      - 9000
+    ports:
+      - "9002:9002"
+    volumes:
+      - /home/mxc/lnmp/www/:/var/www/html/
+      # - /home/mxc/lnmp/php/php7.2-etc/:/usr/local/etc/
+      # - /home/mxc/lnmp/php/conf.d:/usr/local/etc/php/conf.d
+    links:
+      - mysql:mysql
+      - redis:redis
+      - rabbitmq:rabbitmq
+    environment:
+      MYSQL_HOST: mysql:3306
+      REDIS_HOST: redis:6379
   mysql:
     image: mariadb
     environment:
