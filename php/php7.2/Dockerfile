@@ -3,12 +3,12 @@ FROM php:7.2-fpm
 ENV TZ=Asia/Shanghai
 RUN set -xe \
     && echo "安装 php 以及编译构建组件所需包" \
-    && DEBIAN_FRONTEND=noninteractive
-RUN apt-get update \
-    && apt-get install wget vim cron build-essential libfreetype6-dev libjpeg-dev libpng-dev -y
-    # && docker-php-ext-configure gd \
-    #     --with-freetype-dir=/usr/include/ \
-    #     --with-jpeg-dir=/usr/include/ \
+    && DEBIAN_FRONTEND=noninteractive \
+    && apt-get update 
+RUN apt-get install wget vim cron build-essential libfreetype6-dev libjpeg-dev libpng-dev -y \
+    && docker-php-ext-configure gd \
+        --with-freetype-dir=/usr/include/ \
+        --with-jpeg-dir=/usr/include/ 
 RUN docker-php-ext-install iconv mysqli pdo pdo_mysql zip gd bcmath\
     # && pecl install mongodb && docker-php-ext-enable mongodb \
     && wget https://getcomposer.org/composer.phar \
