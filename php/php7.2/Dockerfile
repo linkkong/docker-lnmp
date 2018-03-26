@@ -5,7 +5,7 @@ RUN set -xe \
     && echo "安装 php 以及编译构建组件所需包" \
     && DEBIAN_FRONTEND=noninteractive \
     && apt-get update 
-RUN apt-get install wget vim cron build-essential libfreetype6-dev libjpeg-dev libpng-dev -y \
+RUN apt-get install git wget vim cron build-essential libfreetype6-dev libjpeg-dev libpng-dev -y \
     && docker-php-ext-configure gd \
         --with-freetype-dir=/usr/include/ \
         --with-jpeg-dir=/usr/include/ 
