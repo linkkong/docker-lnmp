@@ -40,7 +40,7 @@ services:
       MYSQL_HOST: mysql:3306
       REDIS_HOST: redis:6379
       MONGO_HOST: mongo:27017
-    php7.2:
+  php7.2:
     build: ./php/php7.2
     depends_on:
       - mysql
@@ -53,7 +53,7 @@ services:
       - "9002:9002"
     volumes:
       - /home/mxc/lnmp/www/:/var/www/html/
-      # - /home/mxc/lnmp/php/php7.2-etc/:/usr/local/etc/
+      - /home/mxc/lnmp/php/php7.2/supervisor/:/etc/supervisor/conf.d/
       # - /home/mxc/lnmp/php/conf.d:/usr/local/etc/php/conf.d
     links:
       - mysql:mysql

@@ -24,7 +24,7 @@ RUN echo "export PATH=$PATH:~/.composer/vendor/bin" >> ~/.bashrc \
         $buildDeps \
     && rm -rf /var/cache/apt/* \
     && rm -rf /var/lib/apt/lists/* \
-    && touch /entrypoint.sh
+    && touch /entrypoint.sh　&& mkdir /home/supervisor
 ADD entrypoint.sh /entrypoint.sh
 RUN chmod 777 /entrypoint.sh
 CMD ["sh","-c","/entrypoint.sh"]
