@@ -3,39 +3,45 @@ services:
   nginx:
     depends_on:
      - php
+     - php7.2
     image: nginx:latest
     expose:
      - 80
      - 443
     ports:
      - "80:80"
+     - "443:443"
     links:
      - php:php
      - php7.2:php7.2
     volumes:
-     - /home/mxc/lnmp/www:/usr/share/nginx/html
-     - /home/mxc/lnmp/nginx/conf.d:/etc/nginx/conf.d
+     - /home/m/lnmp/www:/usr/share/nginx/html
+     - /home/m/lnmp/nginx/conf.d:/etc/nginx/conf.d
+     - /home/m/lnmp/nginx/logs:/var/log/nginx/
   php:
+    # build: ./php/php7.2
     build: ./php
+    # image: php:7.2-fpm
     depends_on:
       - mysql
       - redis
+      - mongo
+      - rabbitmq
 #    image: php:7.1.0-fpm  # see below
     expose:
       - 9000
     ports:
       - "9001:9000"
     volumes:
-      - /home/mxc/lnmp/www/:/var/www/html/
-      - /home/mxc/lnmp/php/etc/:/usr/local/etc/
-#      - /home/mxc/lnmp/php/php-fpm.conf:/usr/local/etc/php-fpm.conf
+      - /home/m/lnmp/www/:/var/www/html/
+      - /home/m/lnmp/php/etc/:/usr/local/etc/
+      # - /home/m/lnmp/php/conf.d:/usr/local/etc/php/conf.d
     links:
       - mysql:mysql
+      - mysql_slave:mysql_slave
       - redis:redis
       - mongo:mongo
       - rabbitmq:rabbitmq
-#    commands:
-
     environment:
       MYSQL_HOST: mysql:3306
       REDIS_HOST: redis:6379
@@ -52,11 +58,13 @@ services:
     ports:
       - "9002:9002"
     volumes:
-      - /home/mxc/lnmp/www/:/var/www/html/
-      - /home/mxc/lnmp/php/php7.2/supervisor/:/etc/supervisor/conf.d/
-      # - /home/mxc/lnmp/php/conf.d:/usr/local/etc/php/conf.d
+      - /home/m/lnmp/www/:/var/www/html/
+      - /home/m/lnmp/php/php7.2/supervisor/:/etc/supervisor/conf.d/
+      # - /home/m/lnmp/php/php7.2-etc/:/usr/local/etc/
+      # - /home/m/lnmp/php/conf.d:/usr/local/etc/php/conf.d
     links:
       - mysql:mysql
+      - mysql_slave:mysql_slave
       - redis:redis
       - rabbitmq:rabbitmq
     environment:
@@ -67,12 +75,27 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: root
     volumes:
-        - /home/mxc/lnmp/mysql/data:/var/lib/mysql
-        - /home/mxc/lnmp/mysql/config:/etc/mysql/conf.d
+        - /home/m/lnmp/mysql/data:/var/lib/mysql
+        - /home/m/lnmp/mysql/config:/etc/mysql/conf.d
     expose:
       - 3306
     ports:
       - "3306:3306"
+    # command: mysqld --tc-heuristic-recover=COMMIT
+      
+  mysql_slave:
+    image: mariadb
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+        - /home/m/lnmp/mysql2/data:/var/lib/mysql
+        - /home/m/lnmp/mysql2/config:/etc/mysql/conf.d
+    expose:
+      - 3306
+    ports:
+      - "3308:3308"
+    depends_on:
+      - mysql
 
   redis:
     image: redis:latest
@@ -99,3 +122,17 @@ services:
       RABBITMQ_DEFAULT_USER: guest
       RABBITMQ_DEFAULT_PASS: guest
 #     RABBITMQ_DEFAULT_VHOST: /
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    expose:
+      - 8080
+      - 80
+    ports:
+      - "8080:80"
+    links:
+      - "mysql:mysql"
+    environment:
+      PMA_HOST: mysql
+      PMA_USER: root
+      PMA_PASSWORD: root
+

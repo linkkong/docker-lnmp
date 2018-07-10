@@ -5,10 +5,11 @@ RUN set -xe \
     && echo "安装 php 以及编译构建组件所需包" \
     && DEBIAN_FRONTEND=noninteractive \
     && apt-get update 
-RUN apt-get install git supervisor wget vim cron build-essential libfreetype6-dev libjpeg-dev libpng-dev -y \
+RUN apt-get install wget git python-setuptools python-dev vim cron build-essential libfreetype6-dev libjpeg-dev libpng-dev -y \
     && docker-php-ext-configure gd \
         --with-freetype-dir=/usr/include/ \
-        --with-jpeg-dir=/usr/include/ 
+        --with-jpeg-dir=/usr/include/ \
+    && easy_install supervisor && echo_supervisord_conf > /etc/supervisord.conf
 RUN docker-php-ext-install iconv mysqli pdo pdo_mysql zip gd bcmath\
     # && pecl install mongodb && docker-php-ext-enable mongodb \
     && wget https://getcomposer.org/composer.phar \
@@ -24,7 +25,8 @@ RUN echo "export PATH=$PATH:~/.composer/vendor/bin" >> ~/.bashrc \
         $buildDeps \
     && rm -rf /var/cache/apt/* \
     && rm -rf /var/lib/apt/lists/* \
-    && touch /entrypoint.sh　&& mkdir /home/supervisor
+    && touch /entrypoint.sh \
+    && mkdir /home/supervisor
 ADD entrypoint.sh /entrypoint.sh
 RUN chmod 777 /entrypoint.sh
 CMD ["sh","-c","/entrypoint.sh"]
