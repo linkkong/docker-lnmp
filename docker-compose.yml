@@ -16,7 +16,7 @@ services:
      - php7.2:php7.2
     volumes:
      - ./www:/usr/share/nginx/html
-     - .nginx/conf.d:/etc/nginx/conf.d
+     - ./nginx/conf.d:/etc/nginx/conf.d
      - ./nginx/logs:/var/log/nginx/
   php:
     # build: ./php/php7.2
