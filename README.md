@@ -2,6 +2,10 @@
 进入该文件夹，启动命令为docker-compose up
 结束命令为docker-compose stop
 
+2018-08-07 更新
+- 增加Ubuntu18.04安装docker清华源脚本，和docker-compose使用
+
+
 2018-02-26 更新
 - 添加php镜像cron功能，供laravel使用
 2017-12-04 提交
