@@ -1,8 +1,7 @@
-version: '2'
+version: '3'
 services:
   nginx:
     depends_on:
-     - php
      - php7.2
     image: nginx:latest
     expose:
@@ -11,41 +10,13 @@ services:
     ports:
      - "80:80"
      - "443:443"
-    links:
-     - php:php
-     - php7.2:php7.2
+    # external_links:
+    #  - php7.2:php7.2
     volumes:
-     - ./www:/usr/share/nginx/html
+     - ./www:/var/www/html/
      - ./nginx/conf.d:/etc/nginx/conf.d
      - ./nginx/logs:/var/log/nginx/
-  php:
-    # build: ./php/php7.2
-    build: ./php
-    # image: php:7.2-fpm
-    depends_on:
-      - mysql
-      - redis
-      - mongo
-      - rabbitmq
-#    image: php:7.1.0-fpm  # see below
-    expose:
-      - 9000
-    ports:
-      - "9001:9000"
-    volumes:
-      - ./www/:/var/www/html/
-      - ./php/etc/:/usr/local/etc/
-      # - ./php/conf.d:/usr/local/etc/php/conf.d
-    links:
-      - mysql:mysql
-      - mysql_slave:mysql_slave
-      - redis:redis
-      - mongo:mongo
-      - rabbitmq:rabbitmq
-    environment:
-      MYSQL_HOST: mysql:3306
-      REDIS_HOST: redis:6379
-      MONGO_HOST: mongo:27017
+
   php7.2:
     build: ./php/php7.2
     depends_on:
@@ -56,20 +27,16 @@ services:
     expose:
       - 9000
     ports:
-      - "9002:9002"
+      - "9000:9000"
     volumes:
       - ./www/:/var/www/html/
       - ./php/php7.2/supervisor/:/etc/supervisor/conf.d/
       # - ./php/php7.2-etc/:/usr/local/etc/
       # - ./php/conf.d:/usr/local/etc/php/conf.d
-    links:
-      - mysql:mysql
-      - mysql_slave:mysql_slave
-      - redis:redis
-      - rabbitmq:rabbitmq
     environment:
       MYSQL_HOST: mysql:3306
       REDIS_HOST: redis:6379
+
   mysql:
     image: mariadb
     environment:
@@ -81,21 +48,6 @@ services:
       - 3306
     ports:
       - "3306:3306"
-    # command: mysqld --tc-heuristic-recover=COMMIT
-      
-  mysql_slave:
-    image: mariadb
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-    volumes:
-        - ./mysql2/data:/var/lib/mysql
-        - ./mysql2/config:/etc/mysql/conf.d
-    expose:
-      - 3306
-    ports:
-      - "3308:3308"
-    depends_on:
-      - mysql
 
   redis:
     image: redis:latest
@@ -103,13 +55,6 @@ services:
       - 6379
     ports:
       - "6379:6379"
-
-  mongo:
-    image: mongo
-    expose:
-      - 27017
-    ports:
-      - "27017:27017"
 
   rabbitmq:
     image: rabbitmq:3.7.2-management
@@ -122,6 +67,7 @@ services:
       RABBITMQ_DEFAULT_USER: guest
       RABBITMQ_DEFAULT_PASS: guest
 #     RABBITMQ_DEFAULT_VHOST: /
+
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     expose:
@@ -129,10 +75,17 @@ services:
       - 80
     ports:
       - "8080:80"
-    links:
-      - "mysql:mysql"
+    depends_on:
+      - "mysql"
     environment:
       PMA_HOST: mysql
       PMA_USER: root
       PMA_PASSWORD: root
+
+  # mongo:
+  #   image: mongo
+  #   expose:
+  #     - 27017
+  #   ports:
+  #     - "27017:27017"
 

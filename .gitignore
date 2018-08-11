@@ -1,0 +1,9 @@
+mysql/data/*
+nginx/logs/*
+nginx/conf.d/*
+!nginx/conf.d/default.conf
+mongo/data/*
+mysql2/data/*
+
+www/*
+!www/index.php
