@@ -5,12 +5,13 @@ RUN set -xe \
     && echo "安装 php 以及编译构建组件所需包" \
     && DEBIAN_FRONTEND=noninteractive \
     && apt-get update 
-RUN apt-get install wget git python-setuptools python-dev vim cron build-essential libfreetype6-dev libjpeg-dev libpng-dev -y \
+RUN apt-get install wget git python-setuptools python-dev vim cron libxml2-dev build-essential libfreetype6-dev libjpeg-dev libpng-dev -y \
     && docker-php-ext-configure gd \
         --with-freetype-dir=/usr/include/ \
         --with-jpeg-dir=/usr/include/ \
+    && docker-php-ext-configure soap \
     && easy_install supervisor && echo_supervisord_conf > /etc/supervisord.conf
-RUN docker-php-ext-install iconv mysqli pdo pdo_mysql zip gd bcmath\
+RUN docker-php-ext-install iconv mysqli pdo pdo_mysql zip gd bcmath soap\
     # && pecl install mongodb && docker-php-ext-enable mongodb \
     && wget https://getcomposer.org/composer.phar \
     && mv composer.phar /usr/local/bin/composer \
