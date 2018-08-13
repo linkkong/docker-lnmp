@@ -16,7 +16,9 @@ services:
      - ./www:/var/www/html/
      - ./nginx/conf.d:/etc/nginx/conf.d
      - ./nginx/logs:/var/log/nginx/
-
+    environment:
+      TZ: Asia/Shanghai
+    restart: on-failure
   php7.2:
     build: ./php/php7.2
     depends_on:
@@ -36,11 +38,13 @@ services:
     environment:
       MYSQL_HOST: mysql:3306
       REDIS_HOST: redis:6379
-
+      TZ: Asia/Shanghai
+    restart: on-failure
   mysql:
     image: mariadb
     environment:
       MYSQL_ROOT_PASSWORD: root
+      TZ: Asia/Shanghai
     volumes:
         - ./mysql/data:/var/lib/mysql
         - ./mysql/config:/etc/mysql/conf.d
@@ -48,6 +52,7 @@ services:
       - 3306
     ports:
       - "3306:3306"
+    restart: on-failure
 
   redis:
     image: redis:latest
@@ -55,6 +60,9 @@ services:
       - 6379
     ports:
       - "6379:6379"
+    environment:
+      TZ: Asia/Shanghai
+    restart: on-failure
 
   rabbitmq:
     image: rabbitmq:3.7.2-management
@@ -63,7 +71,9 @@ services:
       - 15672
     ports:
       - "15672:15672"
+    restart: on-failure
     environment:
+      TZ: Asia/Shanghai
       RABBITMQ_DEFAULT_USER: guest
       RABBITMQ_DEFAULT_PASS: guest
 #     RABBITMQ_DEFAULT_VHOST: /
@@ -81,6 +91,8 @@ services:
       PMA_HOST: mysql
       PMA_USER: root
       PMA_PASSWORD: root
+      TZ: Asia/Shanghai
+    restart: on-failure
 
   # mongo:
   #   image: mongo
