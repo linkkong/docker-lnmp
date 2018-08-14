@@ -1,6 +1,23 @@
 # docker-lnmp
-进入该文件夹，启动命令为docker-compose up
+进入该文件夹，启动命令为docker-compose up  后台运行加 -d
 结束命令为docker-compose stop
+
+2018-08-14 更新
+- 增加容器时区同步设置,和容器错误重启功能
+- 时区设置的两种方式
+```
+
+environment: 
+      - TZ=Asia/Shanghai
+
+or
+
+volumes:
+  - /etc/localtime:/etc/localtime:ro
+  - /etc/timezone:/etc/timezone:ro
+
+```
+      
 
 2018-08-07 更新
 - 增加Ubuntu18.04安装docker清华源脚本，和docker-compose使用
