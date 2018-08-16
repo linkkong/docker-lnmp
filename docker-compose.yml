@@ -16,6 +16,10 @@ services:
      - ./www:/var/www/html/
      - ./nginx/conf.d:/etc/nginx/conf.d
      - ./nginx/logs:/var/log/nginx/
+     #for mac,can improve read io speed 提升读取速度
+     #- ./www:/var/www/html/:cached 
+     #- ./nginx/conf.d:/etc/nginx/conf.d:cached
+     #- ./nginx/logs:/var/log/nginx/:delegated
     environment:
       TZ: Asia/Shanghai
     restart: on-failure
@@ -33,6 +37,10 @@ services:
     volumes:
       - ./www/:/var/www/html/
       - ./php/php7.2/supervisor/:/etc/supervisor/conf.d/
+      # for mac
+      # - ./www/:/var/www/html/:cached
+      
+      
       # - ./php/php7.2-etc/:/usr/local/etc/
       # - ./php/conf.d:/usr/local/etc/php/conf.d
     environment:
@@ -48,6 +56,9 @@ services:
     volumes:
         - ./mysql/data:/var/lib/mysql
         - ./mysql/config:/etc/mysql/conf.d
+        #for mac 
+        #- ./mysql/data:/var/lib/mysql:delegated
+        #- ./mysql/config:/etc/mysql/conf.d:cached
     expose:
       - 3306
     ports:
