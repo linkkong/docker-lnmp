@@ -2,6 +2,11 @@
 进入该文件夹，启动命令为docker-compose up  后台运行加 -d
 结束命令为docker-compose stop
 
+2018-08-17 更新
+- 优化mac下docker访问挂载目录慢的问题
+- 资料如下https://docs.docker.com/docker-for-mac/osxfs-caching/#delegated
+
+
 2018-08-14 更新
 - 增加容器时区同步设置,和容器错误重启功能
 - 时区设置的两种方式
