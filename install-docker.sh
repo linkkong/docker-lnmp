@@ -69,7 +69,7 @@ sudo gpasswd -a ${USER} docker
 #-----------------install docker-compose 
 
 sudo apt install python3-pip
-sudo pip install docker-compose
+sudo pip3 install docker-compose
 
 
 #-----------------install phpstorm
