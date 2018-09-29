@@ -30,15 +30,17 @@ services:
       - redis
       - rabbitmq
 #    image: php:7.1.0-fpm  # see below
-    expose:
-      - 9000
-    ports:
-      - "9000:9000"
+    # expose:
+    #   - 9000
+    # ports:
+    #   - "9000:9000"
     volumes:
       - ./www/:/var/www/html/
       - ./php/php7.2/supervisor/:/etc/supervisor/conf.d/
+      - ./php/php7.2/etc/:/usr/local/etc/
       # for mac
       # - ./www/:/var/www/html/:cached
+      # - ./php/php7.2/etc/:/usr/local/etc/:cached
       
       
       # - ./php/php7.2-etc/:/usr/local/etc/
@@ -103,6 +105,17 @@ services:
       PMA_USER: root
       PMA_PASSWORD: root
       TZ: Asia/Shanghai
+    restart: on-failure
+
+  phpredisadmin:
+    image: erikdubbelboer/phpredisadmin
+    ports:
+      - "8081:80"
+    depends_on:
+      - "redis"
+    environment:
+      REDIS_1_HOST: redis 
+      REDIS_1_NAME: MyRedis
     restart: on-failure
 
   # mongo:

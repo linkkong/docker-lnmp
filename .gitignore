@@ -7,3 +7,5 @@ mysql2/data/*
 
 www/*
 !www/index.php
+
+*.DS_Store

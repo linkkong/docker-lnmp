@@ -5,12 +5,16 @@ RUN set -xe \
     && echo "安装 php 以及编译构建组件所需包" \
     && DEBIAN_FRONTEND=noninteractive \
     && apt-get update 
-RUN apt-get install wget git python-setuptools python-dev vim cron libxml2-dev build-essential libfreetype6-dev libjpeg-dev libpng-dev -y \
+RUN apt-get install wget git python-setuptools python-dev vim cron build-essential libfreetype6-dev libjpeg-dev libpng-dev -y libxml2-dev\
     && docker-php-ext-configure gd \
         --with-freetype-dir=/usr/include/ \
         --with-jpeg-dir=/usr/include/ \
     && docker-php-ext-configure soap \
-    && easy_install supervisor && echo_supervisord_conf > /etc/supervisord.conf
+    && easy_install supervisor && echo_supervisord_conf > /etc/supervisord.conf \
+    && wget https://xdebug.org/files/xdebug-2.6.1.tgz \
+    && tar zxvf xdebug-2.6.1.tgz && cd xdebug-2.6.1 \
+    && phpize && ./configure --enable-xdebug && make clean && make && make install \
+    && docker-php-ext-enable xdebug
 RUN docker-php-ext-install iconv mysqli pdo pdo_mysql zip gd bcmath soap\
     # && pecl install mongodb && docker-php-ext-enable mongodb \
     && wget https://getcomposer.org/composer.phar \
