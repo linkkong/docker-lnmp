@@ -24,7 +24,8 @@ services:
       TZ: Asia/Shanghai
     restart: on-failure
   php7.2:
-    build: ./php/php7.2
+    #build: ./php/php7.2
+    image: lingkong/php7.2
     depends_on:
       - mysql
       - redis
