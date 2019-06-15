@@ -11,7 +11,7 @@ services:
      - "80:80"
      - "443:443"
     volumes:
-     - ./www:/var/www/html/
+     - ./www:/www
      - ./nginx/conf.d:/etc/nginx/conf.d
      - ./openresty:/usr/local/openresty
      #for mac,can improve read io speed 提升读取速度

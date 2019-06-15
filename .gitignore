@@ -9,3 +9,5 @@ www/*
 !www/index.php
 
 *.DS_Store
+
+openresty/nginx/logs/nginx.pid

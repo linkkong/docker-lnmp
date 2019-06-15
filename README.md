@@ -1,7 +1,27 @@
 # docker-lnmp
 
+## 启动和停止
+
 进入该文件夹，启动命令为docker-compose up  后台运行加 -d
+
+可以设置命令别名 alias dcup='docker-compose up -d --remove-orphans'
+remove-orphans 参数会移除多余创建的容器，在自行修改容器配置后使用更佳
+
 结束命令为docker-compose stop
+
+## 启动后的demo页
+
+启动后可以打开三个页面
+- / nginx默认页面
+- /index.php 会显示php7.2容器的php_info()相关信息
+- /lua 会展示lua的应用
+
+## 更新说明
+
+2019-06-15 更新
+
+- 替换nginx容器为openresty
+- default.conf文件增加lua 简单示例代码
 
 2018-09-29 更新
 
