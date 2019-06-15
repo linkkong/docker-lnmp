@@ -1,28 +1,28 @@
 version: '3'
 services:
-  nginx:
-    depends_on:
+  openresty:
+    image: openresty/openresty:stretch-fat
+    depends_on: #如果不实用php容器服务，注释掉本行和下面一行
      - php7.2
-    image: nginx:latest
     expose:
      - 80
      - 443
     ports:
      - "80:80"
      - "443:443"
-    # external_links:
-    #  - php7.2:php7.2
     volumes:
      - ./www:/var/www/html/
      - ./nginx/conf.d:/etc/nginx/conf.d
-     - ./nginx/logs:/var/log/nginx/
+     - ./openresty:/usr/local/openresty
      #for mac,can improve read io speed 提升读取速度
      #- ./www:/var/www/html/:cached 
      #- ./nginx/conf.d:/etc/nginx/conf.d:cached
-     #- ./nginx/logs:/var/log/nginx/:delegated
+     #- ./openresty:/usr/local/openresty:delegated
     environment:
       TZ: Asia/Shanghai
     restart: on-failure
+  
+  #mac下建议使用原声php，docker下的php-fpm性能慢好多，即便加了缓存
   php7.2:
     #build: ./php/php7.2
     image: lingkong/php7.2
@@ -30,22 +30,10 @@ services:
       - mysql
       - redis
       - rabbitmq
-#    image: php:7.1.0-fpm  # see below
-    # expose:
-    #   - 9000
-    # ports:
-    #   - "9000:9000"
     volumes:
       - ./www/:/var/www/html/
       - ./php/php7.2/supervisor/:/etc/supervisor/conf.d/
       - ./php/php7.2/etc/:/usr/local/etc/
-      # for mac
-      # - ./www/:/var/www/html/:cached
-      # - ./php/php7.2/etc/:/usr/local/etc/:cached
-      
-      
-      # - ./php/php7.2-etc/:/usr/local/etc/
-      # - ./php/conf.d:/usr/local/etc/php/conf.d
     environment:
       MYSQL_HOST: mysql:3306
       REDIS_HOST: redis:6379

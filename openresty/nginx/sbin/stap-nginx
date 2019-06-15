@@ -1,0 +1,6 @@
+#!/bin/sh
+
+PATH="/usr/local/openresty/nginx/sbin:$PATH"
+export PATH
+exec stap -d "/usr/local/openresty/nginx/sbin/nginx" -I "/usr/local/openresty/nginx/tapset" "$@"
+
